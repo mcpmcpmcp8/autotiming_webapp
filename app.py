@@ -12,8 +12,7 @@ client = bigquery.Client(credentials=credentials)
 st.title("Consulta BigQuery desde Streamlit")
 
 query = """
-    SELECT *
-    FROM `autotiming-dev.metrics.fuel_type`
+    SELECT 1 as id, "test" as name
 """
 
 # Ejecutar consulta
