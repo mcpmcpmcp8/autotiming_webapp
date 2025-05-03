@@ -3,6 +3,19 @@ from google.cloud import bigquery
 from google.oauth2 import service_account
 import altair as alt
 
+# Add custom CSS to hide the GitHub icon
+st.markdown(
+    """
+    <style>
+    .css-1jc7ptx, .e1ewe7hr3, .viewerBadge_container__1QSob,
+    .styles_viewerBadge__1yB5_, .viewerBadge_link__1S137,
+    .viewerBadge_text__1JaDK {
+        display: none;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
