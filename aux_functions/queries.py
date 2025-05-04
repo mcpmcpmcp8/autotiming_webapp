@@ -64,16 +64,28 @@ class Queries:
         query = """
         SELECT
             ph.d AS day,
+            year_manufactured AS year,
+            km.km_class_id AS km_class_id,
             km.name AS km_range,
+            hp.hp_class_id AS hp_class_id,
+            hp.name AS hp_range,
+            tt.name AS transmission_type,
+            ft.name AS fuel_type,
             CAST(AVG(ph.p) as INT) AS price
         FROM `autotiming-dev.metrics.ad_tracker_history` ad,
         UNNEST(price_history) AS ph
         INNER JOIN `autotiming-dev.metrics.km_class` km 
             ON km.km_class_id = ad.km_class_id
+        INNER JOIN `autotiming-dev.metrics.hp_class` hp
+            ON hp.hp_class_id = ad.hp_class_id
+        INNER JOIN `autotiming-dev.metrics.transmission_type` tt
+            ON tt.transmission_type_id = ad.transmission_type_id
+        INNER JOIN `autotiming-dev.metrics.fuel_type` ft
+            ON ft.fuel_type_id = ad.fuel_type_id
         WHERE ad.make_id = @selected_make_id
         AND ad.model_id = @selected_model_id
-        GROUP BY 1, 2
-        ORDER BY 1
+        GROUP BY ALL
+        ORDER BY day
         """
         job_config = bigquery.QueryJobConfig(
             query_parameters=[
