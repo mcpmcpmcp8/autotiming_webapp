@@ -116,7 +116,7 @@ if selected_make and selected_make != "":
                 ).properties(
                     width=700,
                     height=400,
-                    title=f"Precio promedio para {selected_make} {selected_model})"
+                    title=f"Precio promedio para {selected_make} {selected_model}"
                 )
 
                 st.altair_chart(chart, use_container_width=True)
