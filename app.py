@@ -3,28 +3,10 @@ import altair as alt
 
 from aux_functions.db_connect import DBConnect
 from aux_functions.queries import Queries
+from aux_functions.css import hide_streamlit_style
 
-# Add custom CSS to hide the GitHub icon
-st.markdown(
-    """
-    <style>
-    .css-1jc7ptx, .e1ewe7hr3, .viewerBadge_container__1QSob,
-    .styles_viewerBadge__1yB5_, .viewerBadge_link__1S137,
-    .viewerBadge_text__1JaDK {
-        display: none;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-hide_streamlit_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+# Hide streamlit style
+hide_streamlit_style()
 
 # Initialize the bigquery client
 try:
