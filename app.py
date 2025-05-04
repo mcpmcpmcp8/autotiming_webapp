@@ -97,7 +97,7 @@ if selected_make and selected_make != "":
                     x=alt.X(
                         'day:T', 
                         axis=alt.Axis(
-                            title='Fecha',
+                            title=None,
                             format='%d/%m/%Y'
                         )
                     ),
