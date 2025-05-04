@@ -85,6 +85,7 @@ if selected_make and selected_make != "":
                     df.groupby('day', as_index=False)
                     .agg(price=('price', 'mean'))
                 )
+                filtered_df['price'] = filtered_df['price'].astype(int)
 
             if not filtered_df.empty:
                 min_price = filtered_df['price'].min()
@@ -93,8 +94,14 @@ if selected_make and selected_make != "":
                 margin = price_range * 0.1
 
                 chart = alt.Chart(filtered_df).mark_line().encode(
-                    x='day:T',
-                    y=alt.Y('price:Q', scale=alt.Scale(domain=[min_price - margin, max_price + margin]))
+                    x=alt.X(
+                        'day:T', 
+                        axis=alt.Axis(
+                            title='Fecha',
+                            format='%d/%m/%Y'
+                        )
+                    ),
+                    y=alt.Y('price:Q', scale=alt.Scale(domain=[min_price - margin, max_price + margin]), axis=alt.Axis(title='Precio (€)'))
                 ).properties(
                     width=700,
                     height=400,
