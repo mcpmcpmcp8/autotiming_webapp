@@ -101,7 +101,7 @@ if selected_make and selected_make != "":
                             format='%d/%m/%Y'
                         )
                     ),
-                    y=alt.Y('price:Q', scale=alt.Scale(domain=[min_price - margin, max_price + margin]), axis=alt.Axis(title='Precio (€)'))
+                    y=alt.Y('price:Q', scale=alt.Scale(domain=[min_price - margin, max_price + margin]), axis=alt.Axis(title='€'))
                 ).properties(
                     width=700,
                     height=400,
