@@ -17,7 +17,7 @@ except Exception as e:
     st.stop()
 
 # Title
-st.title("Histórico de Precios del Mercado de Coches de Segunda Mano en España", anchor=False)
+st.title("Evolución del Precio de Coches", anchor=False)
 
 # 1. Filter of make (empty by default)
 makes_df = Queries.get_all_makes(bigquery_client)
