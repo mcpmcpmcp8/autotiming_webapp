@@ -6,32 +6,32 @@ from aux_functions.queries import Queries
 from aux_functions.css import hide_streamlit_style
 from aux_functions.filters import apply_filter_style, create_make_model_filters, create_attribute_filters
 
-# Set page config and theme
-st.set_page_config(
-    page_title="Evolución del Precio de Coches",
-    page_icon="🚗",
-    layout="wide",
-    initial_sidebar_state="collapsed",
-    menu_items={
-        'Get Help': None,
-        'Report a bug': None,
-        'About': None
-    }
-)
+# # Set page config and theme
+# st.set_page_config(
+#     page_title="Evolución del Precio de Coches",
+#     page_icon="🚗",
+#     layout="wide",
+#     initial_sidebar_state="collapsed",
+#     menu_items={
+#         'Get Help': None,
+#         'Report a bug': None,
+#         'About': None
+#     }
+# )
 
-# Force light theme
-st.markdown("""
-    <style>
-        [data-theme="light"] {
-            --background-color: white;
-            --text-color: #262730;
-        }
-    </style>
-""", unsafe_allow_html=True)
+# # Force light theme
+# st.markdown("""
+#     <style>
+#         [data-theme="light"] {
+#             --background-color: white;
+#             --text-color: #262730;
+#         }
+#     </style>
+# """, unsafe_allow_html=True)
 
-# Hide streamlit style and apply custom filter styles
-hide_streamlit_style()
-apply_filter_style()
+# # Hide streamlit style and apply custom filter styles
+# hide_streamlit_style()
+# apply_filter_style()
 
 # Initialize the bigquery client
 try:
