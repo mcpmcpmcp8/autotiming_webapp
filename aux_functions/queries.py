@@ -96,3 +96,45 @@ class Queries:
         query_job = _client.query(query, job_config=job_config)
         return query_job.to_dataframe()
 
+    @staticmethod
+    @st.cache_data(ttl=3600, show_spinner=False)
+    def get_all_dataset(_client: bigquery.Client) -> pd.DataFrame:
+        """
+        Get the price per day grouped by all attributes
+        Args:
+            client: bigquery.Client
+        Returns:
+            df: pd.DataFrame
+        """
+        query = """
+        SELECT
+            ad.make_id,
+            ma.name AS make,
+            ad.model_id,
+            mo.name AS model,
+            ph.d AS day,
+            year_manufactured AS year,
+            km.km_class_id AS km_class_id,
+            km.name AS km_range,
+            hp.hp_class_id AS hp_class_id,
+            hp.name AS hp_range,
+            tt.name AS transmission_type,
+            ft.name AS fuel_type,
+            CAST(AVG(ph.p) as INT) AS price
+        FROM `autotiming-prod.metrics.ad_tracker_history` ad,
+        UNNEST(price_history) AS ph
+        INNER JOIN `autotiming-prod.metrics.make` ma
+            ON ma.make_id = ad.make_id
+        INNER JOIN `autotiming-prod.metrics.model` mo
+            ON mo.model_id = ad.model_id
+        INNER JOIN `autotiming-prod.metrics.km_class` km 
+            ON km.km_class_id = ad.km_class_id
+        INNER JOIN `autotiming-prod.metrics.hp_class` hp
+            ON hp.hp_class_id = ad.hp_class_id
+        INNER JOIN `autotiming-prod.metrics.transmission_type` tt
+            ON tt.transmission_type_id = ad.transmission_type_id
+        INNER JOIN `autotiming-prod.metrics.fuel_type` ft
+            ON ft.fuel_type_id = ad.fuel_type_id
+        GROUP BY ALL
+        """
+        return _client.query(query).to_dataframe()
