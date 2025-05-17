@@ -18,7 +18,7 @@ class Queries:
         SELECT DISTINCT
             make_id,
             name as make
-        FROM `autotiming-dev.metrics.make`
+        FROM `autotiming-prod.metrics.make`
         ORDER BY make
         """
         return _client.query(query).to_dataframe()
@@ -38,7 +38,7 @@ class Queries:
         SELECT DISTINCT
             mo.model_id,
             mo.name as model
-        FROM `autotiming-dev.metrics.model` mo
+        FROM `autotiming-prod.metrics.model` mo
         WHERE mo.make_id = @selected_make_id
         ORDER BY model
         """
@@ -72,15 +72,15 @@ class Queries:
             tt.name AS transmission_type,
             ft.name AS fuel_type,
             CAST(AVG(ph.p) as INT) AS price
-        FROM `autotiming-dev.metrics.ad_tracker_history` ad,
+        FROM `autotiming-prod.metrics.ad_tracker_history` ad,
         UNNEST(price_history) AS ph
-        INNER JOIN `autotiming-dev.metrics.km_class` km 
+        INNER JOIN `autotiming-prod.metrics.km_class` km 
             ON km.km_class_id = ad.km_class_id
-        INNER JOIN `autotiming-dev.metrics.hp_class` hp
+        INNER JOIN `autotiming-prod.metrics.hp_class` hp
             ON hp.hp_class_id = ad.hp_class_id
-        INNER JOIN `autotiming-dev.metrics.transmission_type` tt
+        INNER JOIN `autotiming-prod.metrics.transmission_type` tt
             ON tt.transmission_type_id = ad.transmission_type_id
-        INNER JOIN `autotiming-dev.metrics.fuel_type` ft
+        INNER JOIN `autotiming-prod.metrics.fuel_type` ft
             ON ft.fuel_type_id = ad.fuel_type_id
         WHERE ad.make_id = @selected_make_id
         AND ad.model_id = @selected_model_id
