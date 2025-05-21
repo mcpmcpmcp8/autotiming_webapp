@@ -10,7 +10,7 @@ from aux_functions.filters import apply_filter_style, create_make_model_filters,
 st.set_page_config(
     page_title="Evolución del Precio de Coches",
     page_icon="🚗",
-    layout="wide",
+    layout="centered",
     initial_sidebar_state="collapsed",
     menu_items={
         'Get Help': None,
