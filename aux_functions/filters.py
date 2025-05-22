@@ -82,7 +82,7 @@ def create_attribute_filters(df: pd.DataFrame) -> dict:
         filters['km_range'] = st.selectbox("Kilometraje:", options=km_options, index=0)
         
         # Year filter
-        year_df = df[['year']].drop_duplicates().sort_values('year', ascending=False)
+        year_df = df[['year']].drop_duplicates().sort_values('year')
         year_options = [""] + year_df['year'].tolist()
         filters['year'] = st.selectbox("Año:", options=year_options, index=0)
         
