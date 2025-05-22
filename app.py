@@ -148,7 +148,7 @@ with st.container():
 if st.button(
     label="Limpiar Filtros",
     key="clear_filters_button",
-    use_container_width=True
+    use_container_width=False,
 ):
     clear_filters()
 
@@ -174,7 +174,8 @@ if selected_make and selected_model:
         height=400,
         title={
             "text": f"Precio promedio",
-            "anchor": "middle"
+            "anchor": "middle",
+            "align": "center"
         }
     )
 

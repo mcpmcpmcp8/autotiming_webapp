@@ -7,7 +7,7 @@ def apply_filter_style():
         <style>
         .filter-container {
             background-color: #f0f2f6;
-            padding: 1rem;
+            padding: 0.3rem;
             border-radius: 0.5rem;
             margin-bottom: 1rem;
         }
