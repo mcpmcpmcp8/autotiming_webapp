@@ -6,7 +6,7 @@ from streamlit import session_state as ss
 from aux_functions.db_connect import DBConnect
 from aux_functions.queries import Queries
 from aux_functions.css import hide_streamlit_style
-from aux_functions.filters import apply_filter_style, create_make_model_filters, create_attribute_filters
+from aux_functions.filters import apply_filter_style
 
 # Hide streamlit style and apply custom filter styles
 hide_streamlit_style()
@@ -34,7 +34,7 @@ st.title("Evolución del Precio de Coches", anchor=False)
 
 # Get initial dataset
 df = Queries.get_all_dataset(bigquery_client)
-f_filtered = df
+df_filtered = df
 
 def on_makes_change():
     # delete all filter session states except make_selected
