@@ -85,53 +85,52 @@ with st.container():
 
             with col1:
                 st.markdown('<div class="filter-container">', unsafe_allow_html=True)
-                st.markdown('<div class="filter-title">Características Técnicas</div>', unsafe_allow_html=True)
+                st.markdown('<div class="filter-title">Estado del Vehículo</div>', unsafe_allow_html=True)
 
-                selected_hp_range = st.selectbox(
-                    label="Potencia (CV):",
-                    options=[""] + df_filtered[['hp_range','hp_class_id']].drop_duplicates().sort_values('hp_class_id')['hp_range'].tolist(),
-                    key="hp_range_selected",
+                selected_km_range = st.selectbox(
+                    label="Kilometraje:",
+                    options=[""] + df_filtered[['km_range','km_class_id']].drop_duplicates().sort_values('km_class_id')['km_range'].tolist(),
+                    key="km_range_selected"
                 )
-                if selected_hp_range:
-                    df_filtered = df_filtered[df_filtered['hp_range'] == selected_hp_range]
-
-                    selected_transmission = st.selectbox(
-                        label="Transmisión:",
-                        options=[""] + df_filtered[['transmission_type']].drop_duplicates()['transmission_type'].tolist(),
-                        key="transmission_selected"
+                if selected_km_range:
+                    df_filtered = df_filtered[df_filtered['km_range'] == selected_km_range]
+                    selected_year = st.selectbox(
+                        label="Año",
+                        options=[""] + df_filtered['year'].drop_duplicates().sort_values(ascending=False).tolist(),
+                        key="year_selected"
                     )
-                    if selected_transmission:
-                        df_filtered = df_filtered[df_filtered['transmission_type'] == selected_transmission]
+                    if selected_year:
+                        df_filtered = df_filtered[df_filtered['year'] == selected_year]
 
                 st.markdown('</div>', unsafe_allow_html=True)
-            
+
             with col2:
                 st.markdown('<div class="filter-container">', unsafe_allow_html=True)
-
-                if selected_hp_range and selected_transmission:
-                    st.markdown('<div class="filter-title">Estado del Vehículo</div>', unsafe_allow_html=True)
-                    selected_km_range = st.selectbox(
-                        label="Kilometraje:",
-                        options=[""] + df_filtered[['km_range','km_class_id']].drop_duplicates().sort_values('km_class_id')['km_range'].tolist(),
-                        key="km_range_selected"
+                
+                if selected_km_range and selected_year:
+                    st.markdown('<div class="filter-title">Características Técnicas</div>', unsafe_allow_html=True)
+                    selected_hp_range = st.selectbox(
+                        label="Potencia (CV):",
+                        options=[""] + df_filtered[['hp_range','hp_class_id']].drop_duplicates().sort_values('hp_class_id')['hp_range'].tolist(),
+                        key="hp_range_selected",
                     )
-                    if selected_km_range:
-                        df_filtered = df_filtered[df_filtered['km_range'] == selected_km_range]
+                    if selected_hp_range:
+                        df_filtered = df_filtered[df_filtered['hp_range'] == selected_hp_range]
 
-                        selected_year = st.selectbox(
-                            label="Año",
-                            options=[""] + df_filtered['year'].drop_duplicates().sort_values(ascending=False).tolist(),
-                            key="year_selected"
+                        selected_transmission = st.selectbox(
+                            label="Transmisión:",
+                            options=[""] + df_filtered[['transmission_type']].drop_duplicates()['transmission_type'].tolist(),
+                            key="transmission_selected"
                         )
-                        if selected_year:
-                            df_filtered = df_filtered[df_filtered['year'] == selected_year]
+                        if selected_transmission:
+                            df_filtered = df_filtered[df_filtered['transmission_type'] == selected_transmission]
 
                 st.markdown('</div>', unsafe_allow_html=True)
             
             with col3:
                 st.markdown('<div class="filter-container">', unsafe_allow_html=True)
 
-                if selected_km_range and selected_year:
+                if selected_hp_range and selected_transmission:
                     st.markdown('<div class="filter-title">Características Adicionales</div>', unsafe_allow_html=True)
                     selected_fuel_type = st.selectbox(
                         label="Combustible:",
@@ -159,13 +158,13 @@ if selected_make and selected_model:
     min_price = df_avg['price'].min()
     max_price = df_avg['price'].max()
     price_range = max_price - min_price
-    margin = price_range * 0.3
-    chart = alt.Chart(df_avg).mark_line().encode(
+    margin = price_range * 0.5
+    chart = alt.Chart(df_avg).mark_line(interpolate='basis').encode(
         x=alt.X(
             'day:T', 
             axis=alt.Axis(
                 title=None,
-                format='%d/%m/%Y'
+                format='%b %d'
             )
         ),
         y=alt.Y('price:Q', scale=alt.Scale(domain=[min_price - margin, max_price + margin]), axis=alt.Axis(title='€'))
