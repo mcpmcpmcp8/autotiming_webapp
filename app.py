@@ -12,14 +12,6 @@ from aux_functions.filters import apply_filter_style
 hide_streamlit_style()
 apply_filter_style()
 
-# Initialize the bigquery client
-try:
-    db_connect = DBConnect()
-    bigquery_client = db_connect.get_client()
-except Exception as e:
-    st.error(f"Error connecting to BigQuery: {e}")
-    st.stop()
-
 # initialize filters
 selected_make = None
 selected_model = None
@@ -32,9 +24,18 @@ selected_fuel_type = None
 # Title
 st.title("Evolución del Precio de Coches", anchor=False)
 
-# Get initial dataset
-df = Queries.get_all_dataset(bigquery_client)
-df_filtered = df
+with st.spinner("Cargando datos..."):
+    # Initialize the bigquery client
+    try:
+        db_connect = DBConnect()
+        bigquery_client = db_connect.get_client()
+    except Exception as e:
+        st.error(f"Error connecting to BigQuery: {e}")
+        st.stop()
+
+    # Get initial dataset
+    df = Queries.get_all_dataset(bigquery_client)
+    df_filtered = df
 
 def on_makes_change():
     # delete all filter session states except make_selected
